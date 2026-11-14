@@ -63,5 +63,8 @@ function showView(view){for(const name of ['products','statistics','operations']
 for(const b of document.querySelectorAll('[data-view]'))b.onclick=()=>showView(b.dataset.view);
 $('#chartScale').onchange=renderChart;
 
+function clearAllData(){if(!confirm('Удалить ВСЕ товары, категории и операции в этом браузере? Статистика обнулится. Отменить удаление нельзя. При необходимости сначала скачай резервную копию.'))return;const empty={version:1,products:[],categories:[],events:[]};try{localStorage.setItem(KEY,JSON.stringify(empty));}catch{alert('Не удалось очистить сохранение. Данные не изменены.');return;}db=empty;$('#search').value='';$('#filter').value='all';$('#operationType').value='';$('#operationProduct').value='';$('#modal').close();render();toast('Все данные в этом браузере удалены.');}
+const clearButton=document.createElement('button');clearButton.type='button';clearButton.className='danger';clearButton.textContent='Удалить все данные';clearButton.onclick=clearAllData;$('#operationsView').append(clearButton);
 const categoriesButton=document.createElement('button');categoriesButton.type='button';categoriesButton.className='secondary';categoriesButton.textContent='Категории';categoriesButton.onclick=categoriesMenu;$('#productTools').append(categoriesButton);
 render();
+
